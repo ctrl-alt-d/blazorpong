@@ -121,3 +121,27 @@ app {
         display: block;
     }
 }
+
+
+.gameBoard {
+    padding: 0px;
+    border: 1pt solid #000000;
+}
+.gameBoard tr {
+    border: 0px;
+    padding: inherit;
+}
+.gameBoard tr td {
+    border: inherit;
+    padding: inherit;
+}
+.gameBoard .tile-green {
+    height: 4pt;
+    width: 4pt;
+    background-color: #00FF00;
+}
+.gameBoard .tile-white {
+    height: 4pt;
+    width: 4pt;
+    background-color: #FFFFFF;
+}

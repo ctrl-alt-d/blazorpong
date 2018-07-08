@@ -1,0 +1,29 @@
+@using blazorpong.Shared.GameObjects
+@page "/pong"
+
+    <h1>Joc Pong</h1>
+
+    <table id="gameBoard" class="gameBoard">
+        @for (int i = 1; i <= GameBoard.MAX_ROW; i++)
+        {
+            <tr>
+                @for (int j = 1; j <= GameBoard.MAX_COL; j++)
+                {
+                    <td>
+                        <div class="@(((i+j)%2==0) ? "tile-green" : "tile-white" )"></div>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+    @functions
+    {
+        GameBoard CurrentGame { get; set; }
+        protected override void OnInit()
+        {
+            CurrentGame = new GameBoard();
+        }
+    }
+
+

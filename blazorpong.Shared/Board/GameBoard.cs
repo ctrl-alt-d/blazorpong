@@ -9,9 +9,8 @@ namespace blazorpong.Shared.GameObjects
     {
         public List<Tile> Tiles { get; set; }
 
-        public const int  MAX_COL = 200;
-        public const int  MAX_ROW = 100;
-        
+        public const int  MAX_COL = 40;
+        public const int  MAX_ROW = 80;
 
         public GameBoard()
         {
