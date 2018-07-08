@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace blazorpong.Shared.GameObjects
 {
@@ -8,9 +9,10 @@ namespace blazorpong.Shared.GameObjects
     public class GameBoard
     {
         public List<Tile> Tiles { get; set; }
+        public Ball Ball { get; private set; }
 
-        public const int  MAX_COL = 40;
-        public const int  MAX_ROW = 80;
+        public const int  MAX_COL = 4;
+        public const int  MAX_ROW = 8;
 
         public GameBoard()
         {
@@ -22,6 +24,31 @@ namespace blazorpong.Shared.GameObjects
                     Tiles.Add(new Tile(col, row));
                 }
             }
+
+            Ball = new Ball(new Coordinates(MAX_COL / 2, MAX_ROW / 2));
+        }
+
+        public string GetClass(int column, int row)
+        {
+            return GetClass( new Coordinates(column, row));
+        }
+        public string GetClass(Coordinates coordinates)
+        {
+            return (Ball.Coordinates.Equals(coordinates)) ? "tile-green" : "tile-white";
+        }
+
+        public string TileBallId() {
+            return Tiles
+                  .Where( x=> x.Coordinates.Column == Ball.Coordinates.Column && x.Coordinates.Row == Ball.Coordinates.Row)
+                  .FirstOrDefault()?
+                  .Id;
+        }
+
+        public string GetTileId(int Column, int Row) {
+            return Tiles
+                  .Where( x=> x.Coordinates.Column == Column && x.Coordinates.Row == Row)
+                  .FirstOrDefault()?
+                  .Id;
         }
     }
 }

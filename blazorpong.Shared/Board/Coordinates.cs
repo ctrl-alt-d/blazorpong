@@ -14,5 +14,21 @@ namespace blazorpong.Shared.GameObjects
         }
 
         public Coordinates() { }
+
+        public override bool Equals(object obj)
+        {
+            Coordinates that = (Coordinates) obj;
+            return (Row == that.Row && Column == that.Column);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"{Column} - {Row}";
+        }
     }
 }

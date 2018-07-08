@@ -2,7 +2,7 @@
 @page "/pong"
 
     <h1>Joc Pong</h1>
-
+    <h4>Coordenades de la pilota: @CurrentGame.Ball.Coordinates.ToString() @CurrentGame.TileBallId() </h4>
     <table id="gameBoard" class="gameBoard">
         @for (int i = 1; i <= GameBoard.MAX_ROW; i++)
         {
@@ -10,7 +10,9 @@
                 @for (int j = 1; j <= GameBoard.MAX_COL; j++)
                 {
                     <td>
-                        <div class="@(((i+j)%2==0) ? "tile-green" : "tile-white" )"></div>
+                        <div id="@(CurrentGame.GetTileId(j,i))" class="@(CurrentGame.GetClass(j, i) )">
+
+                        </div>
                     </td>
                 }
             </tr>

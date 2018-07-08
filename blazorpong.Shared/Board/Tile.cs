@@ -1,5 +1,5 @@
 //From https://github.com/exceptionnotfound/BattleshipModellingPractice
-
+using System;
 using System.ComponentModel;
 using blazorpong.Shared.Helpers;
 
@@ -10,11 +10,13 @@ namespace blazorpong.Shared.GameObjects
     {
         public OccupationType OccupationType { get; set; }
         public Coordinates Coordinates { get; set; }
+        public string Id { get; private set; }
 
         public Tile(int column, int row)
         {
             Coordinates = new Coordinates(column, row);
             OccupationType = OccupationType.Empty;
+            Id = Guid.NewGuid().ToString();
         }
 
         public Tile() { }
