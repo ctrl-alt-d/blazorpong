@@ -27,16 +27,7 @@ namespace blazorpong.Shared.GameObjects
             }
 
             Ball = new Ball(new Coordinates(MAX_COL / 2, MAX_ROW / 2));
-        }
 
-        public string GetClass(int column, int row)
-        {
-            return GetClass( new Coordinates(column, row));
-        }
-
-        public string GetClass(Coordinates coordinates)
-        {
-            return (Ball.Coordinates.Equals(coordinates)) ? "tile-green" : "tile-white";
         }
 
         public string TileBallId() {
@@ -45,6 +36,17 @@ namespace blazorpong.Shared.GameObjects
 
         public string GetTileId(int Column, int Row) {
             return this.Tiles[ Column, Row ]?.Id;
+        }
+
+        public void CheckCssClass(int column, int row)
+        {
+            CheckCssClass( new Coordinates(column, row));
+        }
+
+        public void CheckCssClass(Coordinates coordinates)
+        {
+            string CssClass = (Ball.Coordinates.Equals(coordinates)) ? "tile-green" : "tile-white";
+            Tiles[coordinates.Column, coordinates.Row].CssClass = CssClass;
         }
     }
 }

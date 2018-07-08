@@ -7,7 +7,7 @@ namespace blazorpong.Shared.GameObjects
 {
     public class Ball
     {
-        public Coordinates Coordinates { get; private set; }
+        public Coordinates Coordinates { get; set; }
 
         public Ball(Coordinates coordinates)
         {

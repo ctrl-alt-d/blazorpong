@@ -11,12 +11,14 @@ namespace blazorpong.Shared.GameObjects
         public OccupationType OccupationType { get; set; }
         public Coordinates Coordinates { get; set; }
         public string Id { get; private set; }
+        public string CssClass { get; set; }
 
         public Tile(int column, int row)
         {
             Coordinates = new Coordinates(column, row);
             OccupationType = OccupationType.Empty;
             Id = Guid.NewGuid().ToString();
+            CssClass = "tile-white";
         }
 
         public Tile() { }

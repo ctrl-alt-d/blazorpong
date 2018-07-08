@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using System.Linq;
 using System.Net.Mime;
+using blazorpong.Server.Hubs;
 
 namespace blazorpong.Server
 {
@@ -16,7 +17,7 @@ namespace blazorpong.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddSignalR();
             services.AddResponseCompression(options =>
             {
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
@@ -25,6 +26,7 @@ namespace blazorpong.Server
                     WasmMediaTypeNames.Application.Wasm,
                 });
             });
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +38,12 @@ namespace blazorpong.Server
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSignalR(routes =>
+                {
+                    routes.MapHub<PongHub>("/ponghub");
+                }
+            );
 
             app.UseMvc(routes =>
             {

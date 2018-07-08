@@ -1,7 +1,10 @@
 @using blazorpong.Shared.GameObjects
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Diagnostics;
 @page "/pong"
 
     <h1>Joc Pong</h1>
+    <pre>@errors_trobats</pre>
     <h4>Coordenades de la pilota: @CurrentGame.Ball.Coordinates.ToString() @CurrentGame.TileBallId() </h4>
     <table id="gameBoard" class="gameBoard">
         @for (int i = 0; i < GameBoard.MAX_ROW; i++)
@@ -10,7 +13,7 @@
                 @for (int j = 0; j < GameBoard.MAX_COL; j++)
                 {
                     <td>
-                        <div id="@(CurrentGame.GetTileId(j,i))" class="@(CurrentGame.GetClass(j, i) )">
+                        <div id="@(CurrentGame.GetTileId(j,i))" class="@CurrentGame.Tiles[j, i].CssClass">
 
                         </div>
                     </td>
@@ -21,11 +24,38 @@
 
     @functions
     {
+        string errors_trobats = "";
+        HubConnection _hub;
         GameBoard CurrentGame { get; set; }
         protected override void OnInit()
         {
             CurrentGame = new GameBoard();
+            try {
+                _hub = new HubConnectionBuilder()
+                    .WithUrl("/ponghub")
+                    .Build();
+            }
+            catch (Exception e)
+            {
+                errors_trobats += e.ToString();
+            }
+        }
+
+        protected override async void OnAfterRender()
+        {
+            try {
+                await _hub.StartAsync();
+                _hub.On<Coordinates>("UpdateBall", (coordinates) =>
+                    {
+                        CurrentGame.Ball.Coordinates = coordinates;
+                        CurrentGame.CheckCssClass(coordinates);
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                errors_trobats += e.ToString();
+            }
         }
     }
-
 
