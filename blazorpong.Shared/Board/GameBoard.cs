@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace blazorpong.Shared.GameObjects
 {
@@ -8,20 +9,20 @@ namespace blazorpong.Shared.GameObjects
     /// </summary>
     public class GameBoard
     {
-        public List<Tile> Tiles { get; set; }
+        public Tile[,] Tiles { get; set; }
         public Ball Ball { get; private set; }
 
-        public const int  MAX_COL = 4;
-        public const int  MAX_ROW = 8;
+        public const int  MAX_COL = 40;
+        public const int  MAX_ROW = 80;
 
         public GameBoard()
         {
-            Tiles = new List<Tile>();
-            for (int col = 1; col <= MAX_COL; col++)
+            Tiles = new Tile[MAX_COL, MAX_ROW];
+            for (int col = 0; col < MAX_COL; col++)
             {
-                for (int row = 1; row <= MAX_ROW; row++)
+                for (int row = 0; row < MAX_ROW; row++)
                 {
-                    Tiles.Add(new Tile(col, row));
+                    Tiles[col,row] = new Tile(col, row);
                 }
             }
 
@@ -32,23 +33,18 @@ namespace blazorpong.Shared.GameObjects
         {
             return GetClass( new Coordinates(column, row));
         }
+
         public string GetClass(Coordinates coordinates)
         {
             return (Ball.Coordinates.Equals(coordinates)) ? "tile-green" : "tile-white";
         }
 
         public string TileBallId() {
-            return Tiles
-                  .Where( x=> x.Coordinates.Column == Ball.Coordinates.Column && x.Coordinates.Row == Ball.Coordinates.Row)
-                  .FirstOrDefault()?
-                  .Id;
+            return this.Tiles[ this.Ball.Coordinates.Column, this.Ball.Coordinates.Row ]?.Id;
         }
 
         public string GetTileId(int Column, int Row) {
-            return Tiles
-                  .Where( x=> x.Coordinates.Column == Column && x.Coordinates.Row == Row)
-                  .FirstOrDefault()?
-                  .Id;
+            return this.Tiles[ Column, Row ]?.Id;
         }
     }
 }
